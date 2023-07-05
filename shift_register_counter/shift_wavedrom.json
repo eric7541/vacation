@@ -1,0 +1,5 @@
+{signal: [
+  {name: 'clk', wave: 'p...' },
+  {name: 'n_rst' , wave: 'lh..'},
+  {name: 'out', wave: '====',data:"0001 0010 0100 1000"}
+]}

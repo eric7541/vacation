@@ -1,0 +1,5 @@
+{signal: [
+  {name: 'sel', wave: 'lh' },
+  {},
+  {name: 'out', wave: 'lh'}
+]}

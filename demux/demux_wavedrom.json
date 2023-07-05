@@ -1,0 +1,5 @@
+{signal: [
+  {name: 'sel', wave: '====',data:"00 01 10 11" },
+  {name: 'in' , wave: 'lhlh'},
+  {name: 'out', wave: '====',data:"xxx0 xx10 x010 1010"}
+]}

@@ -1,0 +1,7 @@
+{signal: [
+  {name: 'clk', wave: 'p.....'},
+  {name: 'n_rst', wave: 'lh....',phase:0.5},
+  {name: 'J', wave: 'l.hl.h',phase:0.5},
+  {name: 'K', wave: 'l...hl',phase:0.5},
+  {name: 'Q', wave: 'l.h.lh'}
+]}

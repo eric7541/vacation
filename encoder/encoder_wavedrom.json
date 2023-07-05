@@ -1,0 +1,5 @@
+{signal: [
+  {name: 'select', wave: '====',data: "00 01 10 11" },
+  {},
+  {name: 'out', wave: '====',data: "0001 0010 0100 1000 "}
+]}

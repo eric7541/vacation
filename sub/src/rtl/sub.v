@@ -1,14 +1,7 @@
 module sub (
-  input clk,
-  input n_rst,
   input [31:0] a,
   input [31:0] b,
-  input operator,
-  input data_type,
-  input parser_done,
-  output [31:0] result,
-  output alu_done,
-  output [31:0] alu_out
+  output [31:0] result
 );
   wire [31:0] difference;
   wire borrow;
@@ -74,7 +67,5 @@ module sub (
 
   // 결과 및 출력 설정
   assign result = difference;
-  assign alu_done = parser_done;
-  assign alu_out = difference;
 
 endmodule

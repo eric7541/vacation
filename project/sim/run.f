@@ -1,2 +1,2 @@
-../src/rtl/di.v
+../src/rtl/multi.v
 ../testbench/testbench.v    

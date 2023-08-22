@@ -1,4 +1,4 @@
-module subtract (
+module subtract (//뺏셈
   input  clk,       // 클럭 입력
   input  n_rst,     // 비동기 리셋 입력
   input  [15:0] M,  // 피승수

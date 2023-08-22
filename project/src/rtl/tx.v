@@ -1,28 +1,28 @@
 module tx (
-    input clk,
-    input n_rst,
-    input [7:0] tx_data,
-    output reg txd
+    input clk,              // 클럭 입력
+    input n_rst,            // 비동기 리셋 입력
+    input [7:0] tx_data,    // 송신할 데이터 입력 (8비트)
+    output reg txd          // 송신 데이터 출력
 );
 
-    reg [1:0] c_state; // Current state of the transmitter
-    reg [1:0] n_state; // Next state of the transmitter
+    reg [1:0] c_state;       // 송신기의 현재 상태
+    reg [1:0] n_state;       // 송신기의 다음 상태
 
-    reg [15:0] c_cnt1; // Current value of counter 1 (sclk generation counter)
-    reg [15:0] n_cnt1; // Next value of counter 1
+    reg [15:0] c_cnt1;       // 현재 카운터 1의 값 (sclk 생성 카운터)
+    reg [15:0] n_cnt1;       // 다음 카운터 1의 값
 
-    reg [3:0] c_cnt2; // Current value of counter 2 (sclk counting counter)
-    reg [3:0] n_cnt2; // Next value of counter 2
+    reg [3:0] c_cnt2;        // 현재 카운터 2의 값 (sclk 카운트 카운터)
+    reg [3:0] n_cnt2;        // 다음 카운터 2의 값
 
-    localparam SR0 = 2'h0; // State 0
-    localparam SR1 = 2'h1; // State 1
-    localparam SR2 = 2'h2; // State 2
-    localparam SR3 = 2'h3; // State 3
+    localparam SR0 = 2'h0;   // 상태 0
+    localparam SR1 = 2'h1;   // 상태 1
+    localparam SR2 = 2'h2;   // 상태 2
+    localparam SR3 = 2'h3;   // 상태 3
 
-    localparam FLG1 = 16'h1458; // Flag 1 value
-    localparam FLG2 = 4'ha;     // Flag 2 value
+    localparam FLG1 = 16'h1458; // 플래그 1 값
+    localparam FLG2 = 4'ha;     // 플래그 2 값
 
-    // State and counter updates on positive clock edge or negative reset edge
+    // 클럭 엣지 또는 비동기 리셋 엣지에서 상태 및 카운터 업데이트
     always @(posedge clk or negedge n_rst) begin
         if (!n_rst) begin
             c_state <= SR0;
@@ -36,9 +36,9 @@ module tx (
         end
     end
 
-    reg sclk; // Sclk signal
+    reg sclk;                // Sclk 신호
 
-    // Sclk generation logic on positive clock edge or negative reset edge
+    // 클럭 엣지 또는 비동기 리셋 엣지에서 Sclk 생성 논리
     always @(posedge clk or negedge n_rst) begin
         if (!n_rst)
             sclk <= 1'b1;
@@ -50,10 +50,10 @@ module tx (
         end
     end
 
-    reg sclk_d; // Delayed sclk signal
-    wire sclk_f; // Falling edge detection of sclk
+    reg sclk_d;              // 지연된 Sclk 신호
+    wire sclk_f;             // Sclk의 하강 에지 감지
 
-    // Sclk delay logic on positive clock edge or negative reset edge
+    // 클럭 엣지 또는 비동기 리셋 엣지에서 Sclk 지연 논리
     always @(posedge clk or negedge n_rst) begin
         if (!n_rst)
             sclk_d <= 1'b1;
@@ -61,7 +61,7 @@ module tx (
             sclk_d <= sclk;
     end
 
-    assign sclk_f = (sclk == 1'b0) && (sclk_d == 1'b1); // Detect falling edge of sclk
+    assign sclk_f = (sclk == 1'b0) && (sclk_d == 1'b1); // Sclk의 하강 에지 감지
 
     always @(*) begin
         case (c_state)
@@ -81,13 +81,13 @@ module tx (
 
     always @(posedge clk or negedge n_rst) begin
         if (!n_rst)
-            txd <= 1'b1; // Start bit
+            txd <= 1'b1; // 시작 비트
         else begin
             case (c_state)
-                SR0: txd <= 1'b1; // Start bit
-                SR2: txd <= tx_data[0]; // Transmit data bit 0
-                SR3: txd <= 1'b0; // Stop bit
-                default: txd <= 1'b1; // Start bit
+                SR0: txd <= 1'b1;         // 시작 비트
+                SR2: txd <= tx_data[0];   // 데이터 비트 0 전송
+                SR3: txd <= 1'b0;         // 정지 비트
+                default: txd <= 1'b1;     // 시작 비트
             endcase
         end
     end
